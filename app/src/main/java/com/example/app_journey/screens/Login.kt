@@ -82,7 +82,7 @@ fun Login(navegacao: NavHostController?) {
                 Column (
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(15.dp),
+                        .padding(20.dp),
                     verticalArrangement = Arrangement.Center
                 ){
                     Image(
@@ -213,24 +213,6 @@ fun Login(navegacao: NavHostController?) {
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = "Já é um proffissional?", fontSize = 14.sp, color = Color.White, modifier = Modifier)
-                            Button(
-                                modifier = Modifier.height(35.dp),
-                                colors = ButtonDefaults.buttonColors(Color.Transparent),
-                                onClick = {
-                                    navegacao?.navigate("cadastro")
-                                }
-                            ) {
-                                Text(
-                                    text = buildAnnotatedString {
-                                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                                            append("Criar conta profissional")
-                                        }
-                                    },
-                                    fontSize = 14.sp,
-                                    color = Color.White
-                                )
-                            }
 
                         }
 
@@ -265,7 +247,7 @@ fun Login(navegacao: NavHostController?) {
                                                 erro.value = result?.message ?: "Email ou senha incorretos"
                                             }
                                         } else {
-                                            erro.value = "Erro na API: ${response.code()}"
+                                            erro.value = "Email ou senha incorretos"
                                         }
                                     }
 
