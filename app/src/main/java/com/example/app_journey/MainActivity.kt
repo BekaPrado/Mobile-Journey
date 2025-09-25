@@ -1,0 +1,57 @@
+package com.example.app_journey
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.app_journey.screens.Cadastro
+import com.example.app_journey.screens.Home
+import com.example.app_journey.screens.Login
+import com.example.app_journey.screens.RecuperacaoSenha
+import com.example.app_journey.screens.RedefinirSenha
+import com.example.app_journey.screens.VerificarEmail
+import com.example.app_journey.utils.SharedPrefHelper
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContent {
+            val navegacao = rememberNavController()
+            val context = applicationContext
+
+            val rotaInicial = if (SharedPrefHelper.obterEmail(context) != null) {
+                "login"
+            } else {
+                "login"
+            }
+
+            NavHost(
+                navController = navegacao,
+                startDestination = rotaInicial
+            ) {
+                composable(route = "login") { Login(navegacao) }
+                composable(route = "cadastro") { Cadastro(navegacao) }
+                composable(route = "recuperacao_senha") { RecuperacaoSenha(navegacao) }
+                composable(route = "home"){ Home(navegacao) }
+                composable(route = "verificar_email/{email}") { backStackEntry ->
+                    val email = backStackEntry.arguments?.getString("email")
+                    if (email != null) {
+                        VerificarEmail(navegacao, email)
+                    }
+                }
+
+                composable(route = "redefinir_senha/{idUsuario}") { backStackEntry ->
+                    val idUsuario = backStackEntry.arguments?.getString("idUsuario")?.toIntOrNull()
+                    if (idUsuario != null) {
+                        RedefinirSenha(navegacao, idUsuario)
+                    }
+                }
+
+            }
+        }
+    }
+}
